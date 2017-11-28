@@ -19,10 +19,12 @@ Sub Main()
   video.streamFormat = "mp4"
   videos.push(video)
 
+  video = {}
   video.url = videoUrlPrefix + "fox5/play.m3u8"
   video.streamFormat = "hls"
   videos.push(video)
 
+  video = {}
   video.url = videoUrlPrefix + "v3sample/play.m3u8"
   video.streamFormat = "hls"
   videos.push(video)
