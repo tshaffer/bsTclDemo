@@ -12,10 +12,20 @@ Sub Main()
 ''  Stream.url = "http://10.1.0.95:3000/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
   attractVideoUrl = videoUrlPrefix + "Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
 
-  videoUrls = []
-  videoUrls.push(videoUrlPrefix + "Roku_4K_Streams/dvretail.p5_U25000.mp4")
-  videoUrls.push(videoUrlPrefix + "xx")
-  videoUrls.push(videoUrlPrefix + "xx")
+  videos = []
+  video = {}
+
+  video.url = videoUrlPrefix + "Roku_4K_Streams/dvretail.p5_U25000.mp4"
+  video.streamFormat = "mp4"
+  videos.push(video)
+
+  video.url = videoUrlPrefix + "fox5/play.m3u8"
+  video.streamFormat = "hls"
+  videos.push(video)
+
+  video.url = videoUrlPrefix + "v3sample/play.m3u8"
+  video.streamFormat = "hls"
+  videos.push(video)
 
   msgPort = CreateObject("roMessagePort")
 
@@ -27,26 +37,7 @@ Sub Main()
 
   udpSender = CreateUdpSender()
 
-' html
-x = 0
-y = 0
-width = 1280
-hight = 720
-
-aa = {}
-aa.AddReplace("nodejs_enabled",true)
-aa.AddReplace("brightsign_js_objects_enabled",true)
-aa.AddReplace("url","file:///index.html")
-
-is = {}
-is.AddReplace("port",2999)
-
-aa.AddReplace("inspector_server",is)
-
-rect = CreateObject("roRectangle", x, y, width, hight)
-html = CreateObject("roHtmlWidget", rect, aa)
-
-html.Show()
+  html = LaunchHtmlServer()
 
   while true
 
@@ -60,11 +51,11 @@ html.Show()
       if buttonNumber% = 12 then
         stop
       else if buttonNumber% = 0 then
-        LaunchVideo(udpSender, videoUrls[0])
+        LaunchVideo(udpSender, videos[0])
       else if buttonNumber% = 1 then
-        LaunchVideo(udpSender, videoUrls[1])
+        LaunchVideo(udpSender, videos[1])
       else if buttonNumber% = 2 then
-        LaunchVideo(udpSender, videoUrls[2])
+        LaunchVideo(udpSender, videos[2])
       endif
 
     endif
@@ -95,17 +86,15 @@ Function CreateUDPSender()
 End Function
 
 
-' also contentType'
 Sub LaunchAttractVideo(udpSender As Object, attractVideoUrl$ As String)
   udpMessage = "attract:" + attractVideoUrl$
   SendCommandToRoku(udpSender, udpMessage)
 End Sub
 
 
-' also contentType'
-Sub LaunchVideo(udpSender As Object, videoUrl$ As String)
-  print "launchVideo at: "; videoUrl$
-  udpMessage = "video:" + videoUrl$
+Sub LaunchVideo(udpSender As Object, video As Object)
+  print "launchVideo at: "; video.url
+  udpMessage = "video:" + video.url + ":streamFormat:" + video.streamFormat
   SendCommandToRoku(udpSender, udpMessage)
 End Sub
 
@@ -113,3 +102,29 @@ End Sub
 Sub SendCommandToRoku(udpSender As Object, udpMessage As String)
   udpSender.Send(udpMessage)
 End Sub
+
+
+Function LaunchHtmlServer() As Object
+  x = 0
+  y = 0
+  width = 1280
+  hight = 720
+
+  aa = {}
+  aa.AddReplace("nodejs_enabled",true)
+  aa.AddReplace("brightsign_js_objects_enabled",true)
+  aa.AddReplace("url","file:///index.html")
+
+  is = {}
+  is.AddReplace("port",2999)
+
+  aa.AddReplace("inspector_server",is)
+
+  rect = CreateObject("roRectangle", x, y, width, hight)
+  html = CreateObject("roHtmlWidget", rect, aa)
+
+  html.Show()
+
+  return html
+
+End Function
