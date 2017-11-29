@@ -77,7 +77,10 @@ Sub Main()
 
       msg$ = msg.GetString()
       if msg$ = "roku" then
+        print "roku heartbeat received"
         timer.Stop()
+        timer.SetElapsed(10, 0)
+        timer.Start()
         rokuAlive = true
       endif
 
