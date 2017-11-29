@@ -1,12 +1,17 @@
+''  Stream.url = "http://10.1.0.95:3000/fox5/play.m3u8"
+''  Stream.url = "http://video.ted.com/talks/podcast/DanGilbert_2004_480.mp4"
+''  attractLoopUrl = "http://10.1.0.95:3000/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
+
 Sub Main()
 
   print "BrightSign / Roku TCL Demo"
 
 ''  rokuIPAddress = "10.1.0.89"
+'' rokuIPAddress = "10.1.0.92"
 ''  rokuIPAddress = "192.168.0.109"
 
-''  bsIPAddress = "10.1.0.95"
-  bsIPAddress = "192.168.0.105"
+  bsIPAddress = "10.1.0.95"
+''  bsIPAddress = "192.168.0.105"
   videoUrlPrefix = "http://" + bsIPAddress + ":3000/"
 
 ''  Stream.url = "http://10.1.0.95:3000/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
@@ -71,7 +76,8 @@ End Sub
 Function CreateUDPSender()
 
   udpSender = CreateObject("roDatagramSender")
-	udpSender.SetDestination("BCAST-LOCAL-SUBNETS", 5000)
+''	udpSender.SetDestination("BCAST-LOCAL-SUBNETS", 5000)
+  udpSender.SetDestination("10.8.1.92", 5000)
 
 ''  if udpAddressType$ = "LocalSubnet" then
 ''  	udpSender.SetDestination("BCAST-LOCAL-SUBNETS", 5000)
