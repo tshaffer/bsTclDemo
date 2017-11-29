@@ -1,15 +1,13 @@
-''  Stream.url = "http://10.1.0.95:3000/fox5/play.m3u8"
-''  Stream.url = "http://video.ted.com/talks/podcast/DanGilbert_2004_480.mp4"
-''  attractLoopUrl = "http://10.1.0.95:3000/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
-
 Sub Main()
 
   print "BrightSign / Roku TCL Demo"
 
   bsIPAddress = "10.1.0.95"
+  rokuIPAddress = "10.8.1.92"
+
   videoUrlPrefix = "http://" + bsIPAddress + ":3000/"
 
-  attractVideoUrl = videoUrlPrefix + "Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
+''  attractVideoUrl = videoUrlPrefix + "Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
 
   videos = []
 
@@ -43,6 +41,16 @@ Sub Main()
 
   html = LaunchHtmlServer()
 
+  timer = CreateObject("roTimer")
+  timer.SetPort(msgPort)
+  timer.SetElapsed(10, 0)
+  timer.Start()
+
+  xfer = CreateObject("roUrlTransfer")
+  xfer.SetUrl(rokuIPAddress + ":8060/launch/dev")
+
+  rokuAlive = false
+
   while true
 
     msg = wait(0, msgPort)
@@ -50,8 +58,9 @@ Sub Main()
 
     if type(msg) = "roControlDown" then
 
-      buttonNumber% = msg.GetInt()
+      ' user pressed button to select video
 
+      buttonNumber% = msg.GetInt()
       if buttonNumber% = 12 then
         stop
       else if buttonNumber% = 0 then
@@ -64,10 +73,23 @@ Sub Main()
 
     else if type(msg) = "roDatagramEvent" then
 
-      print msg.GetString()
+      ' heartbeat received from roku
+
+      msg$ = msg.GetString()
+      if msg$ = "roku" then
+        timer.Stop()
+        rokuAlive = true
+      endif
+
+    else if type(msg) = "roTimerEvent" then
+
+      ' no heartbeat received from Roku app - try to launch it (Roku apparently ignores this if the app is already active)
+
+      xfer.PostFromString("")
+      timer.SetElapsed(10, 0)
+      timer.Start()
 
     endif
-
 
   end while
 
@@ -81,10 +103,10 @@ Function CreateUDPSender()
 End Function
 
 
-Sub LaunchAttractVideo(udpSender As Object, attractVideoUrl$ As String)
-  udpMessage = "attract:" + attractVideoUrl$
-  SendCommandToRoku(udpSender, udpMessage)
-End Sub
+''Sub LaunchAttractVideo(udpSender As Object, attractVideoUrl$ As String)
+''  udpMessage = "attract:" + attractVideoUrl$
+''  SendCommandToRoku(udpSender, udpMessage)
+''End Sub
 
 
 Sub LaunchVideo(udpSender As Object, video As Object)
