@@ -44,6 +44,9 @@ Sub Main()
 
   udpSender = CreateUdpSender()
 
+  udpReceiver = CreateObject("roDatagramReceiver", 5000)
+  udpReceiver.SetPort(msgPort)
+
   html = LaunchHtmlServer()
 
   while true
@@ -64,6 +67,10 @@ Sub Main()
       else if buttonNumber% = 2 then
         LaunchVideo(udpSender, videos[2])
       endif
+
+    else if type(msg) = "roDatagramEvent" then
+
+      print msg.GetString()
 
     endif
 
