@@ -6,21 +6,15 @@ Sub Main()
 
   print "BrightSign / Roku TCL Demo"
 
-''  rokuIPAddress = "10.1.0.89"
-'' rokuIPAddress = "10.1.0.92"
-''  rokuIPAddress = "192.168.0.109"
-
   bsIPAddress = "10.1.0.95"
-''  bsIPAddress = "192.168.0.105"
   videoUrlPrefix = "http://" + bsIPAddress + ":3000/"
 
-''  Stream.url = "http://10.1.0.95:3000/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
   attractVideoUrl = videoUrlPrefix + "Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"
 
   videos = []
-  video = {}
 
-  video.url = videoUrlPrefix + "Roku_4K_Streams/dvretail.p5_U25000.mp4"
+  video = {}
+  video.url = videoUrlPrefix + "Roku_4K_Streams/trimforted.mp4"
   video.streamFormat = "mp4"
   videos.push(video)
 
@@ -81,23 +75,9 @@ End Sub
 
 
 Function CreateUDPSender()
-
   udpSender = CreateObject("roDatagramSender")
-''	udpSender.SetDestination("BCAST-LOCAL-SUBNETS", 5000)
   udpSender.SetDestination("10.8.1.92", 5000)
-
-''  if udpAddressType$ = "LocalSubnet" then
-''  	udpSender.SetDestination("BCAST-LOCAL-SUBNETS", 5000)
-''  else if udpAddressType$ = "Ethernet" then
-''    udpSender.SetDestination("BCAST-SUBNET-0", udpSendPort)
-''  else if udpAddressType$ = "Wireless" then
-''    udpSender.SetDestination("BCAST-SUBNET-1", udpSendPort)
-''  else
-''    udpSender.SetDestination(udpAddress$, udpSendPort)
-''  endif
-
   return udpSender
-
 End Function
 
 
