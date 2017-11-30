@@ -98,7 +98,7 @@ End Sub
 
 Function CreateUDPSender()
   udpSender = CreateObject("roDatagramSender")
-  udpSender.SetDestination("10.8.1.92", 5000)
+  udpSender.SetDestination("10.8.1.155", 5000)
   return udpSender
 End Function
 
