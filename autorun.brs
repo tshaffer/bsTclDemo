@@ -3,7 +3,7 @@ Sub Main()
   print "BrightSign / Roku TCL Demo"
 
   bsIPAddress = "10.1.0.95"
-  rokuIPAddress = "10.8.1.92"
+  rokuIPAddress = "10.8.1.155"
 
   videoUrlPrefix = "http://" + bsIPAddress + ":3000/"
 
@@ -49,8 +49,6 @@ Sub Main()
   xfer = CreateObject("roUrlTransfer")
   xfer.SetUrl(rokuIPAddress + ":8060/launch/dev")
 
-  rokuAlive = false
-
   while true
 
     msg = wait(0, msgPort)
@@ -81,7 +79,6 @@ Sub Main()
         timer.Stop()
         timer.SetElapsed(10, 0)
         timer.Start()
-        rokuAlive = true
       endif
 
     else if type(msg) = "roTimerEvent" then
