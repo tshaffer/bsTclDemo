@@ -44,7 +44,18 @@ Function serverPlugin_ProcessEvent(event As Object) As Boolean
 	if type(event) = "roAssociativeArray" then
 		if type(event["EventType"]) = "roString"
 			if event["EventType"] = "SEND_PLUGIN_MESSAGE" then
-			  print "received plugin message"
+			  print "received event "; event["PluginName"]
+				if lcase(event["PluginName"]) = "serverplugin" then
+					pluginMessage$ = event["PluginMessage"]
+					print "received pluginMessage ";pluginMessage$
+					if pluginMessage$ = "launchApp" then
+            rokuIPAddress = "10.8.1.155"
+            xfer = CreateObject("roUrlTransfer")
+            xfer.SetUrl(rokuIPAddress + ":8060/launch/dev")
+            xfer.PostFromString("")
+  					return true
+					endif
+				endif
 			endif
 		endif
 	endif
