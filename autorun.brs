@@ -123,10 +123,6 @@ End Sub
 
 Function LaunchHttpServer(msgPort) As Object
 
-'https=createobject("roHttpServer", { port: 1770 })
-'m=createobject("romessageport")
-'https.addgetfromfile({ url_path: "/res.ts", filename: "SD:/res.ts"})
-
   httpServer = CreateObject("roHttpServer", { port : 3000 })
   httpServer.SetPort(msgPort)
 	httpServer.AddGetFromFile({ url_path: "/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4", content_type: "video/mp4", filename: "hls/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"})
@@ -135,27 +131,5 @@ Function LaunchHttpServer(msgPort) As Object
 	httpServer.AddGetFromFile({ url_path: "/v3sample/play.m3u8", content_type: "application/x-mpegURL", filename: "hls/v3sample/play.m3u8"})
 
   return httpServer
-
-''  x = 0
-''  y = 0
-''  width = 1280
-''  hight = 720
-
-''  aa = {}
-''  aa.AddReplace("nodejs_enabled",true)
-''  aa.AddReplace("brightsign_js_objects_enabled",true)
-''  aa.AddReplace("url","file:///index.html")
-
-''  is = {}
-''  is.AddReplace("port",2999)
-
-''  aa.AddReplace("inspector_server",is)
-
-''  rect = CreateObject("roRectangle", x, y, width, hight)
-''  html = CreateObject("roHtmlWidget", rect, aa)
-
-''  html.Show()
-
-''  return html
 
 End Function
