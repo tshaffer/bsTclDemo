@@ -39,7 +39,7 @@ Sub Main()
   udpReceiver = CreateObject("roDatagramReceiver", 5000)
   udpReceiver.SetPort(msgPort)
 
-  httpServer = LaunchHtmlServer(msgPort)
+  httpServer = LaunchHttpServer(msgPort)
 
   timer = CreateObject("roTimer")
   timer.SetPort(msgPort)
@@ -121,7 +121,7 @@ Sub SendCommandToRoku(udpSender As Object, udpMessage As String)
 End Sub
 
 
-Function LaunchHtmlServer(msgPort) As Object
+Function LaunchHttpServer(msgPort) As Object
 
 'https=createobject("roHttpServer", { port: 1770 })
 'm=createobject("romessageport")
