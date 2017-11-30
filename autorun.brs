@@ -39,7 +39,7 @@ Sub Main()
   udpReceiver = CreateObject("roDatagramReceiver", 5000)
   udpReceiver.SetPort(msgPort)
 
-  html = LaunchHtmlServer()
+  httpServer = LaunchHtmlServer(msgPort)
 
   timer = CreateObject("roTimer")
   timer.SetPort(msgPort)
@@ -121,27 +121,41 @@ Sub SendCommandToRoku(udpSender As Object, udpMessage As String)
 End Sub
 
 
-Function LaunchHtmlServer() As Object
-  x = 0
-  y = 0
-  width = 1280
-  hight = 720
+Function LaunchHtmlServer(msgPort) As Object
 
-  aa = {}
-  aa.AddReplace("nodejs_enabled",true)
-  aa.AddReplace("brightsign_js_objects_enabled",true)
-  aa.AddReplace("url","file:///index.html")
+'https=createobject("roHttpServer", { port: 1770 })
+'m=createobject("romessageport")
+'https.addgetfromfile({ url_path: "/res.ts", filename: "SD:/res.ts"})
 
-  is = {}
-  is.AddReplace("port",2999)
+  httpServer = CreateObject("roHttpServer", { port : 3000 })
+  httpServer.SetPort(msgPort)
+	httpServer.AddGetFromFile({ url_path: "/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4", content_type: "video/mp4", filename: "hls/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"})
+	httpServer.AddGetFromFile({ url_path: "/Roku_4K_Streams/trimforted.mp4", content_type: "video/mp4", filename: "hls/Roku_4K_Streams/trimforted.mp4"})
+	httpServer.AddGetFromFile({ url_path: "/fox5/play.m3u8", content_type: "application/x-mpegURL", filename: "hls/fox5/play.m3u8"})
+	httpServer.AddGetFromFile({ url_path: "/v3sample/play.m3u8", content_type: "application/x-mpegURL", filename: "hls/v3sample/play.m3u8"})
 
-  aa.AddReplace("inspector_server",is)
+  return httpServer
 
-  rect = CreateObject("roRectangle", x, y, width, hight)
-  html = CreateObject("roHtmlWidget", rect, aa)
+''  x = 0
+''  y = 0
+''  width = 1280
+''  hight = 720
 
-  html.Show()
+''  aa = {}
+''  aa.AddReplace("nodejs_enabled",true)
+''  aa.AddReplace("brightsign_js_objects_enabled",true)
+''  aa.AddReplace("url","file:///index.html")
 
-  return html
+''  is = {}
+''  is.AddReplace("port",2999)
+
+''  aa.AddReplace("inspector_server",is)
+
+''  rect = CreateObject("roRectangle", x, y, width, hight)
+''  html = CreateObject("roHtmlWidget", rect, aa)
+
+''  html.Show()
+
+''  return html
 
 End Function
