@@ -10,11 +10,7 @@ Function serverPlugin_Initialize(msgPort As Object, userVariables As Object, o a
 
   server = o.localServer
   ok = server.AddGetFromFile({ url_path: "/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4", content_type: "video/mp4", filename: "hls/Roku_4K_Streams/TCL_2017_C-Series_BBY_4K-res.mp4"})
-  print ok
   ok = server.AddGetFromFile({ url_path: "/Roku_4K_Streams/trimforted.mp4", content_type: "video/mp4", filename: "hls/Roku_4K_Streams/trimforted.mp4"})
-  print ok
-  ok = server.AddGetFromFile({ url_path: "/GetM", content_type: "text/plain; charset=utf-8", filename: "hls/fox5/play.m3u8"})
-  print ok
 
   return ServerPlugin
 
